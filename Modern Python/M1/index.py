@@ -67,26 +67,56 @@
 
 
 # Question 5: Student Scores Analysis
-from typing import Dict
+# from typing import Dict
 
 
-def score_analysis():
-    details: dict = {
-        "Ali": 76,
-        "Bashir": 92,
-        "Kashif": 72,
-        "Ubaid": 93
-    }
-    count: int = 0
-    for i in details:
-        if details[i] >= 80:
-            count += 1
+# def score_analysis():
+#     details: dict = {
+#         "Ali": 76,
+#         "Bashir": 92,
+#         "Kashif": 72,
+#         "Ubaid": 93
+#     }
+#     count: int = 0
+#     for i in details:
+#         if details[i] >= 80:
+#             count += 1
 
-    return count
+#     return count
 
 
-final_count = score_analysis()
-print(f"{final_count} student(s) scored above 80")
+# final_count = score_analysis()
+# print(f"{final_count} student(s) scored above 80")
 
 
 # Question 6: Simple Action Log (Conceptual Decorator Use)
+
+import functools
+
+
+def action_logger(func):
+    @functools.wraps(func)
+    def wrapper_log_action(*args, **kwargs):
+        print(f"Agent is starting action: '{func.__name__}'...")
+        result = func(*args, **kwargs)
+        return result
+
+    return wrapper_log_action
+
+
+@action_logger
+def move(direction: str, steps: int):
+    """Simulates the agent moving."""
+    print(f" --> Agent moves {steps} steps towards {direction}.")
+
+
+@action_logger
+def collect_item(item_name: str):
+    """Simulates the agent collecting an item."""
+    print(f" --> Agent picks up the {item_name}.")
+
+
+print("Testing agent actions:")
+move("north", 10)
+print("-" * 20)
+collect_item("ancient artifact")
