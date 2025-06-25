@@ -2,7 +2,7 @@ from litellm import completion
 import os
 
 ## set ENV variables
-os.environ["GEMINI_API_KEY"] = "AIzaSyDDwFeYCH_WTdXRL6uf4kHAjtckfa7nKBo"
+os.environ["GEMINI_API_KEY"] = "your-api-key"
 
 def call_gemini():
     response = completion(
