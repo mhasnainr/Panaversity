@@ -1,0 +1,14 @@
+from litellm import completion
+import os
+
+## set ENV variables
+os.environ["GEMINI_API_KEY"] = "AIzaSyDDwFeYCH_WTdXRL6uf4kHAjtckfa7nKBo"
+
+def call_gemini():
+    response = completion(
+        model="google/gemini-2.5-flash",
+        messages=[{ "content": "Hello, how are you?","role": "user"}]
+    )
+    print(response)
+
+    # print(response['choices'][0]['message']['content'])
