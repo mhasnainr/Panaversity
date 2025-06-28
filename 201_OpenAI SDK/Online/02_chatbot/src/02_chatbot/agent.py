@@ -4,6 +4,7 @@ import os
 from agents import Agent, RunConfig, OpenAIChatCompletionsModel, Runner
 from openai import AsyncOpenAI
 from dotenv import load_dotenv, find_dotenv
+import asyncio
 
 load_dotenv(find_dotenv())
 
@@ -61,6 +62,9 @@ async def handle_chat_start():
 @cl.on_message
 async def handle_message(message: cl.Message):
     history = cl.user_session.get("history", [])
+
+    msg = cl.Message(content="")
+    await msg.send()
     
     # Ensure history is always a list
     if history is None:
@@ -81,17 +85,22 @@ async def handle_message(message: cl.Message):
     # Create the full input with context
     full_input = conversation_context + message.content if conversation_context else message.content
 
-    # Run the agent with the full context
-    result = await Runner.run(
+    # Run the agent with the full context using sync method
+    result = Runner.run_sync(
         agent1,
-        input=full_input,
+        full_input,
         run_config=run_config,
     )
+    
+    # Simulate streaming by sending the response in chunks
+    response_text = result.final_output
+    chunk_size = 10  # Send 10 characters at a time
+    
+    for i in range(0, len(response_text), chunk_size):
+        chunk = response_text[i:i + chunk_size]
+        await msg.stream_token(chunk)
+        await asyncio.sleep(0.05)  # Small delay to simulate streaming
 
     # Add the assistant's response to history
     history.append({"role": "assistant", "content": result.final_output})
     cl.user_session.set("history", history)
-    
-    await cl.Message(
-        content=result.final_output
-    ).send()
