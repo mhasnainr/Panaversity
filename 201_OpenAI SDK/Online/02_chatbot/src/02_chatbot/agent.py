@@ -1,40 +1,34 @@
 import chainlit as cl
 
-import os
 from agents import Agent, RunConfig, OpenAIChatCompletionsModel, Runner
 from openai import AsyncOpenAI
-from dotenv import load_dotenv, find_dotenv
+from .config import get_config
 
-load_dotenv(find_dotenv())
+# Get configuration
+config = get_config()
 
-# Try to get the API key from environment variables
-gemini_api_key = os.getenv("GOOGLE_API_KEY")
-
-# Check if API key is available
-if not gemini_api_key:
-    print("Error: GOOGLE_API_KEY environment variable is not set.")
-    print("Please set your Google API key in one of the following ways:")
-    print("1. Create a .env file with: GOOGLE_API_KEY=your_api_key_here")
-    print("2. Set the environment variable: export GOOGLE_API_KEY=your_api_key_here")
-    print("3. Set it in your system environment variables")
+# Validate configuration on startup
+if not config.validate():
+    print("Configuration Error:")
+    print(config.get_setup_instructions())
     exit(1)
 
 # Step 1: Provider
 provider = AsyncOpenAI(
-    api_key=gemini_api_key,
-    base_url="https://generativelanguage.googleapis.com/v1beta/openai/",
+    api_key=config.google_api_key,
+    base_url=config.base_url,
 )
 
 # Step 2: Model
 model = OpenAIChatCompletionsModel(
-    model="gemini-2.5-flash",
+    model=config.model_name,
     openai_client=provider,
 )
 
 # Config at Run level
 run_config = RunConfig(
     model=model,
-    tracing_disabled=True,
+    tracing_disabled=not config.debug,
 )
 
 # Step 3: Agent
