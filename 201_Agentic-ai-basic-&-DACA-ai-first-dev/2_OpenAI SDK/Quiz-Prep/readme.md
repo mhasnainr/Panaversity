@@ -20,12 +20,12 @@ Equal to sign
 
 <!-- #Minimum of 1 equal to sign required for converting text to main heading -->
 
-Hifen based heading style
+Hyphen-based heading style
 -
 
-<!-- #Minimum of 1 hifen sign required for converting text to 2nd main heading -->
+<!-- #Minimum of 1 hyphen sign required for converting text to 2nd main heading -->
 
-<!-- #note: horizontal lines are drwan automatically when converting text to 1st and 2nd headings -->
+<!-- #note: horizontal lines are drawn automatically when converting text to 1st and 2nd headings -->
 
 
 3 Underscores used for manual line
@@ -36,14 +36,14 @@ ___
 <p>This is the first line.
 And this is the second line.</p>
 
-<!-- Practise for moving to next line: \, br tag, enter 1 line space, two spaces or 2 times tab button -->
+<!-- Practice for moving to next line: \, br tag, enter 1 line space, two spaces or 2 times tab button -->
 
 This is the first line.\
 And this is the second line.
-<!-- best practise: br tag -->
+<!-- best practice: br tag -->
 
 
-<!-- usage of staric -->
+<!-- usage of steric -->
 
 *Italic text*
 
@@ -59,4 +59,4 @@ __double  underscore__
 
 ___triple  underscore___
 
-<!-- best practise: staric -->
+<!-- best practice: steric -->
